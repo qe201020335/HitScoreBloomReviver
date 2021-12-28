@@ -1,13 +1,12 @@
-﻿using IPA.Config.Stores.Attributes;
-using Hive.Versioning;
-using SiraUtil.Converters;
+﻿using System.Runtime.CompilerServices;
+using IPA.Config.Stores;
 
+[assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace HitScoreBloomReviver
 {
     public class PluginConfig
     {
-        [UseConverter(typeof(HiveVersionConverter))] public virtual Version Version { get; set; } = new Version("0.0.0");
-
+        public static PluginConfig Instance { get; set; }
         public virtual bool Enabled { get; set; } = true;
     }
 }

@@ -12,29 +12,35 @@ namespace HitScoreBloomReviver
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        internal static Harmony harmonyId;
-        internal static Logger Logger;
-        internal static PluginConfig Config;
+        private static Harmony _harmony;
+        internal static Logger Logger { get; private set; }
+        internal static Plugin Instance { get; private set; }
 
-        [Init] public Plugin(IPA.Config.Config conf, Logger log, PluginMetadata data)
+        [Init]
+        public Plugin(IPA.Config.Config conf, Logger log)
         {
-            Config = conf.Generated<PluginConfig>();
+            Instance = this;
             Logger = log;
-            Config.Version = data.HVersion;
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
+            _harmony = new Harmony("bs.Exomanz.hsbr");
+            Logger.Debug("Config loaded");
+            
         }
 
-        [OnEnable] public void Enable()
+        [OnEnable]
+        public void Enable()
         {
-            if (harmonyId is null) harmonyId = new Harmony("bs.Exomanz.hsbr");
-            harmonyId.PatchAll(Assembly.GetExecutingAssembly());
+            Logger.Debug("OnEnable");
+            _harmony.PatchAll(Assembly.GetExecutingAssembly());
             GameplaySetup.instance.AddTab("HitScoreBloom", "HitScoreBloomReviver.Settings.settingsView.bsml", SettingsUI.instance);
         }
 
-        [OnDisable] public void Disable()
+        [OnDisable]
+        public void Disable()
         {
             GameplaySetup.instance.RemoveTab("HitScoreBloom");
-            harmonyId.UnpatchAll(harmonyId.Id);
-            harmonyId = null;
+            _harmony.UnpatchSelf();
+            _harmony = null;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace HitScoreBloomReviver.Settings
 {
     public class SettingsUI : PersistentSingleton<SettingsUI>
     {
-        PluginConfig Config => Plugin.Config;
+        PluginConfig Config => PluginConfig.Instance;
 
         [UIValue("Enabled")]
         protected bool Enabled

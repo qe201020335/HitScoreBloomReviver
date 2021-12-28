@@ -3,12 +3,11 @@
   "id": "HitScoreBloomReviver",
   "name": "HitScoreBloomReviver",
   "author": "Exomanz",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Brings back the old Bloom (aka glow) effect to hit scores!",
-  "gameVersion": "1.16.4",
+  "gameVersion": "1.19.0",
   "dependsOn": {
     "BSIPA": "^4.2.0",
-    "BeatSaberMarkupLanguage": "^1.5.4",
-    "SiraUtil": "^2.5.7"
+    "BeatSaberMarkupLanguage": "^1.5.4"
   }
 }
