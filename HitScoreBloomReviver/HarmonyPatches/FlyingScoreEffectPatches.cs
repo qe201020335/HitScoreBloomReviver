@@ -14,7 +14,6 @@ namespace HitScoreBloomReviver.HarmonyPatches
         [HarmonyPrefix]
         internal static void Prefix(FlyingScoreEffect ____flyingScoreEffectPrefab)
         {
-            if (!PluginConfig.Instance.Enabled) return;
 
             var fseb = ____flyingScoreEffectPrefab;
             var text = fseb.GetField<TextMeshPro, FlyingScoreEffect>("_text");
