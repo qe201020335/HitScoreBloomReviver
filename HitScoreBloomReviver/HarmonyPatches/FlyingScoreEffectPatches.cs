@@ -9,27 +9,27 @@ namespace HitScoreBloomReviver.HarmonyPatches
     [HarmonyPatch(typeof(EffectPoolsManualInstaller), nameof(EffectPoolsManualInstaller.ManualInstallBindings))]
     public static class FlyingScoreEffectMaterialPatch
     {
-        private static TMP_FontAsset lazyBloomFont;
+        private static TMP_FontAsset? _lazyBloomFont;
 
         [HarmonyPrefix]
         private static void Prefix(EffectPoolsManualInstaller __instance)
         {
-            lazyBloomFont ??= GetBloomFont();
+            _lazyBloomFont ??= GetBloomFont();
 
-            if (lazyBloomFont == null)
+            if (_lazyBloomFont == null)
             {
                 Plugin.Logger.Warn("Bloom font not found, not updating hit score text.");
                 return;
             }
 
             var text = __instance._flyingScoreEffectPrefab._text;
-            text.font = lazyBloomFont;
+            text.font = _lazyBloomFont;
         }
 
         /**
          * Bloom font creation logic copied from HitScoreVisualizer.
          */
-        private static TMP_FontAsset GetBloomFont()
+        private static TMP_FontAsset? GetBloomFont()
         {
             var tekoFontAsset = Resources.FindObjectsOfTypeAll<TMP_FontAsset>()
                 .FirstOrDefault(x => x.name == "Teko-Medium SDF");
@@ -77,7 +77,7 @@ namespace HitScoreBloomReviver.HarmonyPatches
 
             newFontAsset.m_AtlasTexture = newTexture;
             newFontAsset.name = newName;
-            newFontAsset.atlasTextures = new[] { newTexture };
+            newFontAsset.atlasTextures = [newTexture];
             newFontAsset.material = material;
 
             return newFontAsset;
