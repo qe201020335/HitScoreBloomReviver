@@ -7,16 +7,14 @@ using UnityEngine;
 namespace HitScoreBloomReviver.HarmonyPatches
 {
     [HarmonyPatch(typeof(EffectPoolsManualInstaller), nameof(EffectPoolsManualInstaller.ManualInstallBindings), MethodType.Normal)]
-    public class FlyingScoreEffectMaterialPatch
+    public static class FlyingScoreEffectMaterialPatch
     {
         private static TMP_FontAsset customFontAsset;
 
         [HarmonyPrefix]
-        internal static void Prefix(FlyingScoreEffect ____flyingScoreEffectPrefab)
+        private static void Prefix(EffectPoolsManualInstaller __instance)
         {
-
-            var fseb = ____flyingScoreEffectPrefab;
-            var text = fseb.GetField<TextMeshPro, FlyingScoreEffect>("_text");
+            var text = __instance._flyingScoreEffectPrefab._text;
 
             // I have to make a separate font since if I adjust the materials shader, everything 
             // using the original FontAsset would have bloom applied to it.
