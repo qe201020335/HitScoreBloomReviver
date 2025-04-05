@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using IPA;
+using IPA.Loader;
 using Logger = IPA.Logging.Logger;
 
 namespace HitScoreBloomReviver
@@ -22,6 +23,12 @@ namespace HitScoreBloomReviver
         [OnEnable]
         public void Enable()
         {
+            if (PluginManager.GetPluginFromId("HitScoreVisualizer") != null)
+            {
+                Logger.Warn("HitScoreVisualizer detected, not enabling HitScoreBloomReviver.");
+                return;
+            }
+            
             Logger.Debug("OnEnable");
             _harmony.PatchAll();
         }
